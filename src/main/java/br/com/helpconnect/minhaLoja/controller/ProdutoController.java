@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.helpconnect.minhaLoja.modal.Produto;
 import br.com.helpconnect.minhaLoja.repository.ProdutoRepository;
+import br.com.helpconnect.minhaLoja.service.ProdutoService;
 
 @RestController
 @RequestMapping("/produto")
@@ -25,6 +26,9 @@ public class ProdutoController {
 	
 	@Autowired
 	private ProdutoRepository repository;
+	
+	@Autowired
+	private ProdutoService service;
 	
 	@GetMapping
 	public ResponseEntity<List<Produto>> findAllProdutos() {
@@ -38,6 +42,18 @@ public class ProdutoController {
 		return repository.findById(id)
 				.map(resp -> ResponseEntity.ok(resp))
 				.orElse(ResponseEntity.notFound().build());
+	}
+	
+	@GetMapping("/produto_pedido/comprar/idproduto/{idProduto}/idusuario/{idUsuario}")
+	public ResponseEntity<Produto> comprarProduto(long idProduto, long idUsuario) {
+		
+		return ResponseEntity.ok(service.comprarProduto(idProduto, idUsuario));
+	}
+	
+	@GetMapping("/produto_pedido/devolver/idproduto/{idProduto}/idusuario/{idUsuario}")
+	public ResponseEntity<Produto> devolverProduto(long idProduto, long idUsuario) {
+		
+		return ResponseEntity.ok(service.devolverProduto(idProduto, idUsuario));
 	}
 	
 	@PostMapping
