@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.helpconnect.minhaLoja.modal.Usuario;
+import br.com.helpconnect.minhaLoja.modal.UsuarioLogin;
 import br.com.helpconnect.minhaLoja.repository.UsuarioRepository;
 import br.com.helpconnect.minhaLoja.service.ProdutoService;
+import br.com.helpconnect.minhaLoja.service.UsuarioService;
 
 @RestController
 @RequestMapping("/usuario")
@@ -32,6 +34,9 @@ public class UsuarioController {
 	
 	@Autowired
 	private ProdutoService produtoService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	@GetMapping
 	public ResponseEntity<List<Usuario>> findAllUsuarios() {
@@ -58,6 +63,15 @@ public class UsuarioController {
 			return ResponseEntity.badRequest().build();
 			
 		}
+	}
+	
+	/* PARA LOGARMOS NO SISITEMA TRABALHAMOS COM A CLASSE 'UsuarioLogin' */
+	@PostMapping("/login")
+	public ResponseEntity<UsuarioLogin> Autentication(@RequestBody Optional<UsuarioLogin> user) {
+		
+		return usuarioService.login(user).map(resp -> ResponseEntity.ok(resp))
+				/* CASO SEU USUARIO SEJA INVALIDO VOCE RECEBERA UM ERRO DE NAO AUTORIZADO */
+				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 	
 	@PostMapping
