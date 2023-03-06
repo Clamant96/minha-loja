@@ -11,8 +11,10 @@ conceitos de orientacao a objetos, relacionamentos entre tabelas alem de fornece
 <a href="https://start.spring.io/" target="_blank">Gerar projeto Spring</a>
 
 ## Dependencias necessarias no projeto
+```
 [x] - Spring Data JPA
 [x] - Validation
 [x] - Spring Web
 [x] - Spring Boot DevTools
 [x] - MySQL Driver
+```
