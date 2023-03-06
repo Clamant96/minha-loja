@@ -45,13 +45,13 @@ public class ProdutoController {
 	}
 	
 	@GetMapping("/produto_pedido/comprar/idproduto/{idProduto}/idusuario/{idUsuario}")
-	public ResponseEntity<Produto> comprarProduto(long idProduto, long idUsuario) {
+	public ResponseEntity<Produto> comprarProduto(@PathVariable("idProduto") long idProduto, @PathVariable("idUsuario") long idUsuario) {
 		
 		return ResponseEntity.ok(service.comprarProduto(idProduto, idUsuario));
 	}
 	
 	@GetMapping("/produto_pedido/devolver/idproduto/{idProduto}/idusuario/{idUsuario}")
-	public ResponseEntity<Produto> devolverProduto(long idProduto, long idUsuario) {
+	public ResponseEntity<Produto> devolverProduto(@PathVariable("idProduto") long idProduto, @PathVariable("idUsuario") long idUsuario) {
 		
 		return ResponseEntity.ok(service.devolverProduto(idProduto, idUsuario));
 	}

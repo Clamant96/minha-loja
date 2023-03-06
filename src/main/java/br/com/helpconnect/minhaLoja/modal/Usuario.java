@@ -40,6 +40,8 @@ public class Usuario {
 	private List<Produto> listaPedidos = new ArrayList<>();
 	
 	private double totalCarrinho;
+	
+	private String img;
 
 	public long getId() {
 		return id;
@@ -95,6 +97,14 @@ public class Usuario {
 
 	public void setTotalCarrinho(double totalCarrinho) {
 		this.totalCarrinho = totalCarrinho;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 	
 }

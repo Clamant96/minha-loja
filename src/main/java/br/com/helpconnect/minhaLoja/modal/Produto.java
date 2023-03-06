@@ -49,6 +49,8 @@ public class Produto {
 	)
 	@JsonIgnoreProperties({"listaPedidos"})
 	private List<Usuario> carrinho = new ArrayList<>();
+	
+	private int qtdPedidoProduto;
 
 	public long getId() {
 		return id;
@@ -104,6 +106,14 @@ public class Produto {
 
 	public void setCarrinho(List<Usuario> carrinho) {
 		this.carrinho = carrinho;
+	}
+
+	public int getQtdPedidoProduto() {
+		return qtdPedidoProduto;
+	}
+
+	public void setQtdPedidoProduto(int qtdPedidoProduto) {
+		this.qtdPedidoProduto = qtdPedidoProduto;
 	}
 	
 }

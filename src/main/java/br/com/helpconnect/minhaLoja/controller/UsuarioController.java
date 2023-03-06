@@ -1,6 +1,9 @@
 package br.com.helpconnect.minhaLoja.controller;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.helpconnect.minhaLoja.modal.Usuario;
 import br.com.helpconnect.minhaLoja.repository.UsuarioRepository;
+import br.com.helpconnect.minhaLoja.service.ProdutoService;
 
 @RestController
 @RequestMapping("/usuario")
@@ -25,6 +29,9 @@ public class UsuarioController {
 	
 	@Autowired
 	private UsuarioRepository repository;
+	
+	@Autowired
+	private ProdutoService produtoService;
 	
 	@GetMapping
 	public ResponseEntity<List<Usuario>> findAllUsuarios() {
@@ -35,9 +42,22 @@ public class UsuarioController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> findByIdUsuario(@PathVariable("id") long id) {
 		
-		return repository.findById(id)
-				.map(resp -> ResponseEntity.ok(resp))
-				.orElse(ResponseEntity.notFound().build());
+		Optional<Usuario> cliente = repository.findById(id);
+
+		// AJUSTA VALOR CARRINHO
+		double total = cliente.get().getTotalCarrinho();
+		NumberFormat formatter = new DecimalFormat("#0.00");
+		cliente.get().setTotalCarrinho(Double.parseDouble(formatter.format(total).replace(",", ".")));
+
+		cliente.get().setListaPedidos(produtoService.retirraDuplicidadeCarrinho(cliente));
+
+		try {
+			return ResponseEntity.ok(cliente.get());
+			
+		}catch(Exception e) {
+			return ResponseEntity.badRequest().build();
+			
+		}
 	}
 	
 	@PostMapping
